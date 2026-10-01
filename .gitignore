@@ -1,0 +1,23 @@
+## .NET build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+
+## IDE and editor files
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.user
+*.suo
+
+## Local environment files
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+
+## Operating system files
+.DS_Store
+Thumbs.db

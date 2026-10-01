@@ -1,0 +1,33 @@
+@model Course?
+@{
+    ViewData["Title"] = "My Course";
+}
+
+<section class="content-section my-course-page">
+    <p class="eyebrow">YOUR LEARNING</p>
+    <h1>My Course</h1>
+
+    @if (Model is null)
+    {
+        <p class="detail-intro">You haven't selected a course yet.</p>
+        <a class="enroll-button success-link" asp-action="Index">Browse courses <span aria-hidden="true">&rarr;</span></a>
+    }
+    else
+    {
+        <div class="my-course-content">
+            <div class="detail-main">
+                <p class="eyebrow">SELECTED COURSE @Model.CourseId.ToString("00")</p>
+                <h2>@Model.CourseName</h2>
+                <p class="detail-intro">Your selected course is saved for this session.</p>
+                <dl class="course-facts">
+                    <div><dt>Duration</dt><dd>@Model.Duration</dd></div>
+                    <div><dt>Tuition discount</dt><dd>@Model.DiscountPercentage%</dd></div>
+                    <div><dt>Final fee</dt><dd class="final-fee">@Model.CalculateFinalFees().ToString("C")</dd></div>
+                    <div><dt>Student</dt><dd>@ViewData["StudentName"]</dd></div>
+                    <div><dt>Email</dt><dd>@ViewData["StudentEmail"]</dd></div>
+                </dl>
+                <a class="text-link my-course-link" asp-action="Details" asp-route-courseId="@Model.CourseId">Open course details <span aria-hidden="true">&rarr;</span></a>
+            </div>
+        </div>
+    }
+</section>

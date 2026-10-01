@@ -1,0 +1,36 @@
+@model Course
+@{
+    ViewData["Title"] = Model.CourseName;
+}
+
+<a class="back-link" asp-action="Index">&larr; All courses</a>
+<section class="detail-layout">
+    <div class="detail-main">
+        <p class="eyebrow">COURSE @Model.CourseId.ToString("00")</p>
+        <h1>@Model.CourseName</h1>
+        <p class="detail-intro">Build practical skills with a guided, project-based learning experience.</p>
+
+        <dl class="course-facts">
+            <div><dt>Duration</dt><dd>@Model.Duration</dd></div>
+            <div><dt>Tuition discount</dt><dd>@Model.DiscountPercentage%</dd></div>
+            <div><dt>Original fee</dt><dd>@Model.Fees.ToString("C")</dd></div>
+            <div><dt>Final fee</dt><dd class="final-fee">@Model.CalculateFinalFees().ToString("C")</dd></div>
+        </dl>
+    </div>
+
+    <aside class="enroll-panel">
+        <p class="eyebrow">READY TO BEGIN?</p>
+        <h2>Enroll in this course</h2>
+        <p class="enroll-price">@Model.CalculateFinalFees().ToString("C")</p>
+        <form asp-action="Enroll" method="post">
+            <input type="hidden" name="courseId" value="@Model.CourseId" />
+            <label for="studentName">Student name</label>
+            <input id="studentName" name="studentName" class="form-control" maxlength="100" required autocomplete="name" value="@ViewData["StudentName"]" />
+            <span class="validation-message">@Html.ValidationMessage("studentName")</span>
+            <label for="studentEmail">Email address</label>
+            <input id="studentEmail" name="studentEmail" type="email" class="form-control" maxlength="254" required autocomplete="email" value="@ViewData["StudentEmail"]" />
+            <span class="validation-message">@Html.ValidationMessage("studentEmail")</span>
+            <button class="enroll-button" type="submit">Confirm enrollment <span aria-hidden="true">&rarr;</span></button>
+        </form>
+    </aside>
+</section>

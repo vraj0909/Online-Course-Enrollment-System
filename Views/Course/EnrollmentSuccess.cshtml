@@ -1,0 +1,16 @@
+@model (Course Course, string StudentName, string StudentEmail)
+@{
+    ViewData["Title"] = "Enrollment confirmed";
+}
+
+<section class="success-panel">
+    <p class="eyebrow">ENROLLMENT CONFIRMED</p>
+    <h1>You're on your way, @Model.StudentName.</h1>
+    <p>Your place in <strong>@Model.Course.CourseName</strong> is selected. The final course fee is <strong>@Model.Course.CalculateFinalFees().ToString("C")</strong>.</p>
+    <dl class="course-facts enrollment-contact">
+        <div><dt>Student</dt><dd>@Model.StudentName</dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:@Model.StudentEmail">@Model.StudentEmail</a></dd></div>
+    </dl>
+    <a class="enroll-button success-link" asp-action="MyCourse">View my course <span aria-hidden="true">&rarr;</span></a>
+    <a class="enroll-button success-link" asp-action="Index">Return to course catalog <span aria-hidden="true">&rarr;</span></a>
+</section>

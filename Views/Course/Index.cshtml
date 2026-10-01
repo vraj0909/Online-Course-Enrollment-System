@@ -1,0 +1,94 @@
+@model CourseIndexViewModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<section class="catalog-header">
+    <div>
+        <p class="eyebrow">LEARN WITH PURPOSE</p>
+        <h1>Find your next course.</h1>
+        <p class="catalog-subtitle">Practical programs designed to move your skills forward.</p>
+    </div>
+    <div class="student-status">
+        @if (!string.IsNullOrWhiteSpace(Model.StudentName))
+        {
+            <span>Welcome back, <strong>@Model.StudentName</strong></span>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.StudentEmail))
+        {
+            <span>@Model.StudentEmail</span>
+        }
+        @if (Model.SelectedCourseId.HasValue)
+        {
+            <span class="status-course">Course selected: #@Model.SelectedCourseId</span>
+        }
+    </div>
+</section>
+
+<section class="content-section" aria-labelledby="course-list-heading">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">THE CATALOG</p>
+            <h2 id="course-list-heading">Explore courses</h2>
+        </div>
+        <span class="item-count">@Model.Courses.Count programs</span>
+    </div>
+
+    <div class="course-grid">
+        @foreach (var course in Model.Courses)
+        {
+            <article class="course-item">
+                <div class="course-number">@course.CourseId.ToString("00")</div>
+                <div class="course-copy">
+                    <h3>@course.CourseName</h3>
+                    <p>@course.Duration <span aria-hidden="true">&middot;</span> @course.DiscountPercentage% tuition discount</p>
+                </div>
+                <div class="course-price">
+                    <span class="price-label">Final fee</span>
+                    <strong>@course.CalculateFinalFees().ToString("C")</strong>
+                    <span class="original-price">Was @course.Fees.ToString("C")</span>
+                </div>
+                <a class="text-link" asp-controller="Course" asp-action="Details" asp-route-courseId="@course.CourseId">Course details <span aria-hidden="true">&rarr;</span></a>
+            </article>
+        }
+    </div>
+</section>
+
+<section class="content-section users-section" aria-labelledby="users-heading">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">COMMUNITY</p>
+            <h2 id="users-heading">Learner directory</h2>
+        </div>
+        <span class="item-count">JSONPlaceholder</span>
+    </div>
+
+    @if (Model.UsersError is not null)
+    {
+        <p class="notice" role="status">@Model.UsersError</p>
+    }
+    else if (Model.Users.Count == 0)
+    {
+        <p class="notice">No learner information is available right now.</p>
+    }
+    else
+    {
+        <div class="table-scroll">
+            <table class="learner-table">
+                <thead>
+                    <tr><th>Name</th><th>Email</th><th>Company</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@user.Name</td>
+                            <td><a href="mailto:@user.Email">@user.Email</a></td>
+                            <td>@(user.Company?.Name ?? "-")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
